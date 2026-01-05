@@ -1,0 +1,29 @@
+.transactions-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow-y: auto;
+}
+
+.transactions-header, .transaction {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.transactions-header {
+    background-color: #44B78B;
+    color: black;
+    font-weight: bold;
+}
+
+.transaction {
+    background-color: #333;
+    color: white;
+}
+
+.transaction:hover {
+    background-color: #444;
+}

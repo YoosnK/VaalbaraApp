@@ -1,0 +1,105 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Chi tiết mặt hàng {{ item.item_name }}{% endblock %}
+{% block page_title %}{{ item.item_name }}{% endblock %}
+
+{% block nav_left %}
+<a class="btn btn-jade" href="{% url 'ivm:inv_page' inventory_slug=item.inventory.slug %}">&lt</a>
+{% endblock %}
+
+{% block content %}
+<section class="detail-body">
+    <section class="detail-main">
+        <h3>Thông tin mặt hàng</h3>
+        <div class="detail-row">
+            <label>ID:</label>
+            <span>{{ item.item_id }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Tên mặt hàng:</label>
+            <span>{{ item.item_name }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Nhãn hiệu:</label>
+            <span>{{ item.brand }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Đóng gói:</label>
+            <span>{{ item.packaging }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Đơn vị:</label>
+            <span>{{ item.get_unit_display }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Phân loại:</label>
+            <span>{{ item.category }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Mô tả:</label>
+            <span>{{ item.description }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Tồn kho:</label>
+            <span>{{ item.total_stock|floatformat:"-2"|intcomma }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Giá trị tồn kho:</label>
+            <span>{{ item.value|floatformat:"-2"|intcomma }}</span>
+        </div>
+    </section>
+    <section class="detail-extra">
+        <h3>Các lô hàng tồn kho</h3>
+        {% for batch in item.batches.all %}
+        <section class="detail-extra-item">
+            <div class="detail-row">
+                <label>ID Lô:</label>
+                <span>{{ batch.batch_id }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Giao dịch:</label>
+                <span>{{ batch.transaction.code }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Ngày nhập:</label>
+                <span>{{ batch.transaction.completion_date|date:"Y/m/d H:i" }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Đơn giá:</label>
+                <span>{{ batch.unit_cost|floatformat:"-2"|intcomma }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Số lượng:</label>
+                <span>{{ batch.quantity|floatformat:"-2"|intcomma }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Giá trị:</label>
+                <span>{{ batch.value|floatformat:"-2"|intcomma }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Ghi chú:</label>
+                <span>{{ batch.notes }}</span>
+            </div>
+        </section>
+        {% empty %}
+        <div>Không có hàng tồn kho</div>
+        {% endfor %}
+    </section>
+</section>
+<div class="actions-bar">
+    {% if perms.ivm.change_item %}
+    <a href="{% url 'ivm:edit_item' item_id=item.item_id %}" class="btn btn-edit">
+        Sửa mặt hàng
+    </a>
+    {% endif %}
+    {% if item.total_stock <= 0 and perms.ivm.delete_item %} <form
+        action="{% url 'ivm:delete_item' item_id=item.item_id %}" method="POST" style="display:inline;"
+        onsubmit="return confirm('Bạn có chắc chắn muốn xóa mặt hàng này?');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-delete">Xóa</button>
+        </form>
+        {% endif %}
+</div>
+{% endblock %}

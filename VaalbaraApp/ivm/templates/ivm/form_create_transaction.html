@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{%load static %}
+
+{% block title %}Tạo giao dịch kho{% endblock %}
+{% block page_title %}Tạo giao dịch kho{% endblock %}
+
+{% block content %}
+<form method="post" id="transaction-form" class="form">
+    {% csrf_token %}
+    <div class="main-form" id="main-form">
+        {{ form }}
+    </div>
+    <div class="sub-forms">
+        <div class="grid-header">
+            <div>Mặt hàng</div>
+            <div>Số lượng</div>
+            <div>Đơn giá</div>
+            <div>Chiết khấu (%)</div>
+            <div>Ghi chú</div>
+            <div>Thành Tiền</div>
+            <div>Xóa</div>
+        </div>
+        {{ formset.management_form }}
+        <div id="item-list">
+            {% for item_form in formset %}
+            <div class="item-row">
+                {{ item_form.id }}
+                <div>{{ item_form.item }}</div>
+                <div>{{ item_form.quantity }}</div>
+                <div>{{ item_form.unit_cost }}</div>
+                <div>{{ item_form.discount }}</div>
+                <div>{{ item_form.notes }}</div>
+                <div class="total-cell">0</div>
+                <div class="delete-cell">{{ item_form.DELETE }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div id="empty-form-template" style="display:none;">
+            <div class="item-row">
+                {{ formset.empty_form.id }}
+                <div>{{ formset.empty_form.item }}</div>
+                <div>{{ formset.empty_form.quantity }}</div>
+                <div>{{ formset.empty_form.unit_cost }}</div>
+                <div>{{ formset.empty_form.discount }}</div>
+                <div>{{ formset.empty_form.notes }}</div>
+                <div class="total-cell">0</div>
+                <div class="delete-cell">{{ formset.empty_form.DELETE }}</div>
+            </div>
+        </div>
+        <div class="last-item-row item-row">
+            <div>Tổng</div>
+            <div class="grand-total">0</div>
+        </div>
+    </div>
+
+    <div class="actions-bar">
+        <button type="button" id="add-item-btn" class="btn btn-jade">+ Thêm mặt hàng</button>
+        <button type="submit" class="btn btn-jade">Lưu</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    window.stockData = {{ stock_json | safe }};
+</script>
+<script src="{% static 'js/transaction_form.js' %}"></script>
+{% endblock %}

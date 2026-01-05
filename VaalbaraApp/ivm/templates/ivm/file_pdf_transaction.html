@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+{% load humanize %}
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/report_pdf.css' %}">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
+    <script src="{% static 'js/main.js' %}" defer></script>
+    <title>{{ transaction.code }}</title>
+</head>
+
+<body>
+    <main class="print">
+        <section id="info-1" class="info-section">
+            <div class="self-name">CÔNG TY CỔ PHẦN VAALBARA BIOTECH GROUP</div>
+            <div class="self-address">Lô C1-18, CCN Dương Liễu, Xã Dương Hòa, TP Hà Nội, Việt Nam.</div>
+
+
+            <div class="report-form-no">Mẫu số: 01 - VT</div>
+            <div class="report-issue">
+                (BH theo TT số 200/2014/TT-BTC<br>
+                Ngày 22/12/2014 của BTC)
+            </div>
+            <div class="report-type">
+                {% if transaction.transaction_type == 'Import' %}
+                PHIẾU NHẬP KHO
+                {% else %}
+                PHIẾU XUẤT KHO
+                {% endif %}
+            </div>
+        </section>
+
+        <section id="info-2" class="info-section">
+            <div class="info-date">{{ transaction.date_for_pdf }}</div>
+            <div class="tx-code">Số: {{ transaction.code }}</div>
+            <div class="inv-code">Nợ:
+                {% if transaction.transaction_type == 'Import' %}
+                1522
+                {% else %}
+                621
+                {% endif %}
+            </div>
+            <div class="promise-code">Có:
+                {% if transaction.transaction_type == 'Import' %}
+                331
+                {% else %}
+                1522
+                {% endif %}
+            </div>
+        </section>
+
+        <section id="info-3" class="info-section">
+            <div id="partner-info">
+                {% if transaction.transaction_type == 'Import' %}
+                - Họ và tên người giao: {{ transaction.partner.contact_person|default:transaction.partner.name }}
+                {% else %}
+                - Họ và tên người nhận: {{ transaction.partner.contact_person|default:transaction.partner.name }}
+                {% endif %}
+            </div>
+            <div id="partner-transaction">
+                {% if transaction.transaction_type == 'Import' %}
+                - Theo hóa đơn: {{ transaction.partner_bill }} của {{ transaction.partner.name }}
+                {% else %}
+                - Theo hóa đơn: {{ transaction.code }}
+                {% endif %}
+            </div>
+            <div id="transaction-inventory">
+                {% if transaction.transaction_type == 'Import' %}
+                - Nhập tại kho: {{ transaction.inventory.inventory_name }}
+                {% else %}
+                - Xuất từ kho: {{ transaction.inventory.inventory_name }}
+                {% endif %}
+            </div>
+            <div id="address">- Địa điểm: {{ transaction.partner.address }}</div>
+        </section>
+
+        <section id="items-table" class="info-section">
+            <div class="table-row-header table-row">
+                <div class="table-header" id="header-1">STT</div>
+                <div class="table-header" id="header-2">Tên, nhãn hiệu, quy cách, phẩm chất vật tư, dụng cụ sản phẩm,
+                    hàng hóa</div>
+                <div class="table-header" id="header-3">Mã số</div>
+                <div class="table-header" id="header-4">Đơn vị tính</div>
+                <div class="table-header" id="header-56">Số lượng</div>
+                <div class="table-header" id="header-5">Theo chứng từ</div>
+                <div class="table-header" id="header-6">Thực nhập</div>
+                <div class="table-header" id="header-7">Đơn giá</div>
+                <div class="table-header" id="header-8">Thành tiền</div>
+            </div>
+            <div class="table-column-ids table-row">
+                <div class="table-column-id">A</div>
+                <div class="table-column-id">B</div>
+                <div class="table-column-id">C</div>
+                <div class="table-column-id">D</div>
+                <div class="table-column-id">1</div>
+                <div class="table-column-id">2</div>
+                <div class="table-column-id">3</div>
+                <div class="table-column-id">4</div>
+            </div>
+            {% for t_item in transaction.transaction_items.all %}
+            <div class="table-items table-row">
+                <div class="table-item text-center">1</div>
+                <div class="table-item">{{ t_item.item.full_name }}</div>
+                <div class="table-item text-center">{{ t_item.item.item_name }}</div>
+                <div class="table-item text-center">{{ t_item.item.get_unit_display }}</div>
+                <div class="table-item text-center">{{ t_item.quantity|floatformat:"-2"|intcomma }}</div>
+                <div class="table-item"></div>
+                <div class="table-item text-center">{{ t_item.report_unit_cost|floatformat:"-2"|intcomma }}</div>
+                <div class="table-item text-center">{{ t_item.report_value|floatformat:"-2"|intcomma }}</div>
+            </div>
+            {% endfor %}
+            <div class="table-total table-row">
+                <div class="table-item" id="total-text">Tổng</div>
+                <div class="table-item" id="total-blank"></div>
+                <div class="table-item text-center" id="total-num">{{ transaction.report_value|floatformat:"-2"|intcomma}}</div>
+            </div>
+        </section>
+
+        <section id="info-4" class="info-section">
+            <div class="info-full">- Tổng số tiền (viết bằng chữ): <strong>{{ transaction.report_value_vn }}
+                    đồng</strong></div>
+            <div class="info-full">- Số chứng từ gốc kèm theo:</div>
+        </section>
+
+        <section id="signing" class="info-section">
+            <div id="sign-date">Ngày .... tháng .... năm ......</div>
+            <div class="signatures" id="signers">
+                <div class="signature">Người lập phiếu</div>
+                <div class="signature">Người giao hàng</div>
+                <div class="signature">Thủ kho</div>
+                <div class="signature">Kế toán trưởng</div>
+            </div>
+            <div class="signatures" id="sign-here">
+                <div class="sign-here">(Ký, họ tên)</div>
+                <div class="sign-here">(Ký, họ tên)</div>
+                <div class="sign-here">(Ký, họ tên)</div>
+                <div class="sign-here">(Ký, họ tên)</div>
+            </div>
+            <div class="signatures" id="sign-area">
+                <div class="sign-area"></div>
+                <div class="sign-area"></div>
+                <div class="sign-area"></div>
+                <div class="sign-area"></div>
+            </div>
+        </section>
+    </main>
+
+    <button onclick="window.print()" id="btn-print">Print</button>
+</body>
+
+</html>

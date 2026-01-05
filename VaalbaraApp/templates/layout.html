@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    {% include 'head.html' %}
+    <title>{% block title %}Layout{% endblock %}</title>
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            {% if user.is_authenticated %}
+            <button id="menuBtn" class="dropdown-button btn btn-jade">☰</button>
+            <div id="dropdownMenu" class="dropdown-content">
+                <a href="/">Dashboard</a>
+                <a href="{% url 'tasks:tasks_list' %}">Nhiệm Vụ</a>
+
+                {% if perms.ivm.view_inventory %}
+                <a href="{% url 'ivm:inventory_manager' %}">Quản lý kho</a>
+                {% endif %}
+
+                {% if perms.ivm.view_transaction %}
+                <a href="{% url 'ivm:transactions' %}">Giao dịch kho</a>
+                {% endif %}
+
+                {% if perms.ivm.view_partner %}
+                <a href="{% url 'ivm:page_partners' %}">Thông tin đối tác</a>
+                {% endif %}
+
+                {% if user.is_staff %}
+                <a href="/admin">Admin</a>
+                {% endif %}
+
+                <a href="/about">Thông tin</a>
+            </div>
+            {% endif %}
+            {% block nav_left %}{% endblock %}
+        </div>
+
+        <div class="nav-center">
+            <h1 class="page-title">{% block page_title %}Layout{% endblock %}</h1>
+        </div>
+
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+            <form class="logout" action="{% url 'users:logout' %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-jade" aria-label="Logout" title="Logout">Đăng xuất</button>
+            </form>
+            {% endif %}
+            {% block nav_right %}{% endblock %}
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Dropdown button js -->
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        menuBtn.addEventListener('click', function (e) {
+            // Stop propagation so the window.onclick doesn't immediately close it
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        });
+
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropdown-button')) {
+                if (dropdownMenu.classList.contains('show')) {
+                    dropdownMenu.classList.remove('show');
+                }
+            }
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

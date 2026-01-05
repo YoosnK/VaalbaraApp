@@ -1,0 +1,58 @@
+{% load humanize %}
+
+<section>
+<div class="detail-header">
+    <h2>{{ item.item_name }}</h2>
+</div>
+
+<div class="detail-body">
+    <div class="detail-row">
+        <label>Mã mặt hàng:</label>
+        <span>{{ item.item_id }}</span>
+    </div>
+    <div class="detail-row">
+        <label>Đóng gói:</label>
+        <span>{{ item.packaging }}</span>
+    </div>
+    <div class="detail-row">
+            <label>Đơn vị:</label>
+            <span>{{ item.get_unit_display }}</span>
+        </div>
+    <div class="detail-row">
+        <label>Loại:</label>
+        <span>{{ item.category }}</span>
+    </div>
+    <div class="detail-row">
+        <label>Tồn kho:</label>
+        <span class="stock-value">{{ item.total_stock|floatformat:"-2"|intcomma }}</span>
+    </div>
+    <div class="detail-row">
+        <label>Giá trị:</label>
+        <span>{{ item.value|floatformat:"-2"|intcomma }}</span>
+    </div>
+    <div class="detail-row">
+        <label>Mô tả:</label>
+        <span>{{ item.description }}</span>
+    </div>
+</div>
+
+<div class="detail-actions">
+    {% if perms.ivm.change_item %}
+    <a href="{% url 'ivm:edit_item' item_id=item.item_id %}" class="btn btn-edit">
+        Sửa mặt hàng
+    </a>
+    {% endif %}
+    {% if item.total_stock <= 0 and perms.ivm.delete_item %}
+    <form action="{% url 'ivm:delete_item' item_id=item.item_id %}"
+          method="POST"
+          style="display:inline;"
+          onsubmit="return confirm('Bạn có chắc chắn muốn xóa mặt hàng này?');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-delete">Xóa</button>
+    </form>
+    {% endif %}
+</div>
+<a href="{% url 'ivm:item_page' inventory_slug=item.inventory.slug item_id=item.item_id %}" class="btn-link">
+    Xem chi tiết →
+</a>
+</section>

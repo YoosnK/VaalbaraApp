@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+Nhiệm vụ
+{% endblock %}
+
+{% block page_title %}
+Nhiệm vụ
+{% endblock %}
+
+{% block nav_left %}
+<a href="{% url 'tasks:tasks_list' %}"></a>
+{% endblock %}
+
+{% block content %}
+<section class="detail-body">
+    <section class="detail-extra">
+        <h3>{{ task.title }}</h3>
+        <div class="detail-row">
+            <label>Tạo bởi:</label>
+            <span>{{ task.completion_date }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Thông tin:</label>
+            <span>{{ task.body }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Hạn hoàn thành:</label>
+            <span>{{ task.completion_deadline|date:"m/d/Y H:i" }}</span>
+        </div>
+    </section>
+</section>
+{% endblock %}

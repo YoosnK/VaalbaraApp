@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% load humanize %}
+
+{% block title %}
+Quản lý kho
+{% endblock %}
+{% block page_title %}
+Quản lý kho
+{% endblock %}
+
+{% block content %}
+<section class="detail-body">
+    {% for inv in inventories %}
+    <a href="{% url 'ivm:inv_page' inventory_slug=inv.slug %}">
+        <section class="detail-main">
+
+            <h3> &gt {{ inv.inventory_name }} &lt </h3>
+
+            <div class="detail-row">
+                <label>Số mặt hàng</label>
+                <span>{{ inv.num_unique_items }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Giá trị tồn kho</label>
+                <span>{{ inv.value|floatformat:"-2"|intcomma }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Chi phí</label>
+                <span>{{ inv.total_cost|floatformat:"-2"|intcomma }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Doanh Thu</label>
+                <span>{{ inv.total_revenue|floatformat:"-2"|intcomma }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Lợi nhuận</label>
+                <span>{{ inv.total_profit|floatformat:"-2"|intcomma }}</span>
+            </div>
+            {% if inv.description != "" %}
+            <div class="detail-row">
+                <label>Mô tả</label>
+                <span>{{ inv.description }}</span>
+            </div>
+            {% endif %}
+        </section>
+    </a>
+    {% empty %}
+    <h3>Không tìm thấy kho trong dữ liệu</h3>
+    {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block title %}
+Thông tin đối tác
+{% endblock %}
+
+{% block page_title %}
+Thông tin đối tác
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/info-table.css' %}">
+<script src="{% static 'js/htmx.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+<section class="model-info-container">
+    <section class="info-table partners-table">
+        <div class="info-table-header">
+            <div>Tên</div>
+            <div>Mã số thuế</div>
+            <div>Số Điện thoại</div>
+        </div>
+        <section class="info-table-body">
+            {% for partner in partners %}
+            <div class="info-table-row" hx-get="{% url 'ivm:partner_detail' partner_id=partner.id %}"
+                hx-target=".info-panel" hx-swap="outerHTML">
+                <div class="col-name">
+                    {{ partner.name }}
+                </div>
+                <div>{{ partner.tax_code }}</div>
+                <div>{{ partner.phone }}</div>
+            </div>
+            {% empty %}
+            <h4>Chưa có đối tác nào được thêm vào.</h4>
+            {% endfor %}
+        </section>
+    </section>
+    <section class="info-panel">
+    </section>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('htmx:afterSwap', function () {
+        document.querySelector('.info-panel-close-btn').addEventListener('click', function () {
+            const panel = this.closest('.info-panel');
+            panel.style.display = 'none';
+        });
+    });
+</script>
+{% endblock %}

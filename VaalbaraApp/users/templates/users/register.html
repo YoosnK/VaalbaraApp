@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+Tạo người dùng mới
+{% endblock %}
+
+{% block page_title %}
+Tạo người dùng mới
+{% endblock %}
+
+{% block content %}
+<form class="form" action="{% url 'users:register' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <section class="main-form">
+        {{ form }}
+    </section>
+    <button class="form-submit">Submit</button>
+    <p>Already have an account? <a href="{% url 'users:login' %}">Log in here</a></p>
+</form>
+
+{% endblock %}

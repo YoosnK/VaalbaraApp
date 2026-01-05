@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}{{ inventory.inventory_name }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/ivm.css' %}">
+<script src="{% static 'js/htmx.js' %}"></script>
+{% endblock %}
+
+{% block page_title %}{{ inventory.inventory_name }}{% endblock %}
+
+{% block nav_left %}
+<a class="btn btn-jade" href="{% url 'ivm:inventory_manager' %}">&lt</a>
+{% endblock %}
+
+{% block content %}
+<section class="inventory-display">
+    <section class="item-display-container">
+        <div class="item-header">
+            <div>Tên mặt hàng</div>
+            <div>Đóng gói</div>
+            <div>Phân loại</div>
+            <div>Tồn kho</div>
+            <div>Giá trị</div>
+        </div>
+        <section class="item-display">
+            {% for item in items %}
+            <div class="item" data-item-id="{{ item.item_id }}" hx-get="{% url 'ivm:item_detail_panel' item.item_id %}"
+                hx-target=".item-detail-panel" hx-swap="innerHTML">
+                <div class="col-name">
+                    <a href="{% url 'ivm:item_page' inventory_slug=inventory.slug item_id=item.item_id %}">
+                        {{ item.item_name }} (ID: {{ item.item_id }})
+                    </a>
+                </div>
+                <div>{{ item.packaging }}</div>
+                <div>{{ item.category }}</div>
+                <div>{{ item.total_stock|floatformat:"-2"|intcomma }}</div>
+                <div>{{ item.value|floatformat:"-2"|intcomma }}</div>
+            </div>
+            {% empty %}
+            <h4>No items in inventory</h4>
+            {% endfor %}
+        </section>
+        <div class="action-bar">
+            {% if perms.ivm.add_item %}
+            <a href="{% url 'ivm:add_item_with_slug' inventory_slug=inventory.slug %}?next={{ request.path }}"
+                class="btn btn-jade">
+                <span class="icon">+</span>
+            </a>
+            {% endif %}
+        </div>
+    </section>
+    <aside class="item-detail-panel"></aside>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Show item details when a row is clicked on -->
+{% comment %}
+<script>
+    document.querySelectorAll('.item').forEach(item => {
+        item.addEventListener('click', function () {
+            const itemId = this.getAttribute('data-item-id');
+
+            fetch(`/ivm/item-detail-panel/${itemId}/`)
+                .then(response => response.text())
+                .then(html => {
+                    document.querySelector('.item-detail-panel').innerHTML = html;
+                });
+        });
+    });
+</script>{% endcomment %}
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+Trang Chủ
+{% endblock %}
+
+{% block page_title %}
+Trang Chủ
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <section class="info-panel welcome-panel">
+        <div class="info-panel-title">Giới thiệu</div>
+        <section class="info-panel-body">
+            <p>Xin chào {{ user.last_name }} {{ user.first_name }}</p>
+            <p>Hôm nay là ngày {{ today|date:"d/m/Y" }}</p>
+        </section>
+    </section>
+
+    <section class="info-panel pending-transactions">
+        <div class="info-panel-title">Giao dịch đang chờ xử lý</div>
+        <section class="info-panel-body">
+            {% for transaction in pending_transactions %}
+            <div class="info-transaction-item">
+                <a href="{% url 'ivm:transaction_detail' transaction_id=transaction.transaction_id %}">
+                    <div>Mã Giao dịch: {{ transaction.code }}</div>
+                </a>
+                <div>Hạn hoàn thành : {{ transaction.completion_deadline }}</div>
+                <div>Trạng thái: {{ transaction.status }}</div>
+            </div>
+            {% empty %}
+            <p>Không có giao dịch đang chờ xử lý.</p>
+            {% endfor %}
+        </section>
+    </section>
+
+    <section class="info-panel finance-summary">
+        <div class="info-panel-title">Tổng quan tài chính</div>
+        <div class="info-panel-body">
+            <div>
+                Tổng giá trị tồn ({{ inventories_summary.count }} kho):
+                {{inventories_summary.value|floatformat:"-2"|intcomma }}
+            </div>
+
+            {% for inventory in inventories_summary.inventories %}
+            <p>Giá trị tồn của {{ inventory.inventory_name }}: {{ inventory.value|floatformat:"-2"|intcomma }}</p>
+            {% endfor %}
+            <div class="finance-summary-table">
+                <div class="table-row-header">Thời hạn</div>
+                <div class="table-row-header">Doanh thu</div>
+                <div class="table-row-header">Chi phí</div>
+                <div class="table-row-header">Lợi nhuận</div>
+
+                <div class="table-col-header">Tháng {{today|date:'m/Y' }}</div>
+                <div>{{ inventories_summary.monthly_revenue|floatformat:"-2"|intcomma }}</div>
+                <div>{{ inventories_summary.monthly_cost|floatformat:"-2"|intcomma }}</div>
+                <div>{{ inventories_summary.monthly_profit|floatformat:"-2"|intcomma }}</div>
+
+                <div class="table-col-header">Năm {{today|date:'Y' }}</div>
+                <div>{{ inventories_summary.yearly_revenue|floatformat:"-2"|intcomma }}</div>
+                <div>{{ inventories_summary.yearly_cost|floatformat:"-2"|intcomma }}</div>
+                <div>{{ inventories_summary.yearly_profit|floatformat:"-2"|intcomma }}</div>
+
+                <div class="table-col-header">Tổng</div>
+                <div>{{ inventories_summary.total_revenue|floatformat:"-2"|intcomma }}</div>
+                <div>{{ inventories_summary.total_cost|floatformat:"-2"|intcomma }}</div>
+                <div>{{ inventories_summary.total_profit|floatformat:"-2"|intcomma }}</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-panel pending-tasks">
+        <div class="info-panel-title">Nhiệm vụ hiện tại</div>
+        <section class="info-panel-body">
+            {% for task in pending_tasks %}
+            {{task}}
+            {% empty %}
+            <p>Không còn nhiệm vụ</p>
+            {% endfor %}
+        </section>
+    </section>
+</section>
+{% endblock %}

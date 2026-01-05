@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Giao dịch kho{% endblock %}
+{% block page_title %}Giao dịch kho{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/transactions.css' %}">
+<style>
+    #create-btn {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="transactions-display">
+    <div class="transactions-header">
+        <div>Loại</div>
+        <div>Ngày tạo</div>
+        <div>Kho</div>
+        <div>Trạng Thái</div>
+        <div>Hạn hoàn thành</div>
+    </div>
+    {% for transaction in transactions %}
+    <a href="{% url 'ivm:transaction_detail' transaction_id=transaction.transaction_id %}">
+        <div class="transaction">
+            <div class="row-detail">{{ transaction.get_transaction_type_display }}</div>
+            <div class="row-detail">{{ transaction.creation_date|date:"Y/m/d, H:i"}}</div>
+            <div class="row-detail">{{ transaction.inventory.inventory_name }}</div>
+            <div class="row-detail">{{ transaction.get_transaction_status_display }}</div>
+            <div class="row-detail" {% if transaction.is_overdue %}style="color:red;" {% endif %}>
+                {% if transaction.transaction_status != "Completed" %}
+                {{ transaction.completion_deadline|date:"Y/m/d H:i" }}
+                {% else %}
+                Đã hoàn thành
+                {% endif %}
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+
+    {% if perms.ivm.add_transaction %}
+    <a href="{% url 'ivm:create_transaction' %}" class="btn btn-jade" id="create-btn">+</a>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+Tạo nhiệm vụ
+{% endblock %}
+{% block page_title %}
+Tạo nhiệm vụ
+{% endblock %}
+
+{% block content %}
+<form class="form" action="{% url 'tasks:new_task' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <section class="main-form">
+        {{ form }}
+    </section>
+    <button class="form-submit">Submit</button>
+</form>
+{% endblock %}

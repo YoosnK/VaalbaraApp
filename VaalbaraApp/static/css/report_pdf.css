@@ -1,0 +1,221 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+main {
+	width: 210mm;
+	padding: 5mm;
+	display: flex;
+	flex-direction: column;
+	font-size: 12px;
+	position: relative;
+	top: 20px;
+	left: 20px;
+	box-shadow: 0 0 10px black;
+}
+.info-section {
+	display: grid;
+	width: 100%;
+}
+
+/* #region Info 1 */
+#info-1 {
+	grid-template-columns: repeat(16, 1fr);
+}
+
+.self-name {
+	grid-area: 1 / 1 / 1 / 11;
+}
+.self-address {
+	grid-area: 2 / 1 / 2 / 11;
+}
+.report-form-no {
+	grid-area: 1 / 11 / 1 / 17;
+	text-align: center;
+}
+.report-issue {
+	grid-area: 2 / 11 / 2 / 17;
+	text-align: center;
+	font-size: 0.8rem;
+	font-style: italic;
+}
+.report-type {
+	grid-area: 3 / 1 / 3 / 17;
+	text-align: center;
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+/* #endregion */
+
+/* #region Info 2 */
+#info-2 {
+	grid-template-columns: repeat(16, 1fr);
+}
+.info-date {
+	grid-area: 1 / 6 / 1 / 12;
+	text-align: center;
+}
+.tx-code {
+	grid-area: 2 / 6 / 2 / 12;
+	text-align: center;
+}
+.inv-code {
+	grid-area: 1 / 13 / 1 / 15;
+	text-align: center;
+}
+.promise-code {
+	grid-area: 2 / 13 / 2 / 15;
+	text-align: center;
+}
+/* #endregion */
+
+/* #region Info 3 */
+#info-3 {
+	grid-template-columns: 1fr;
+}
+
+#info-3 > div {
+	text-align: left;
+}
+/* #endregion */
+
+/* Table */
+#items-table {
+	display: flex;
+	flex-direction: column;
+	background-color: black;
+	outline: 1px solid black;
+	margin: 5px 0;
+}
+#items-table div {
+	background-color: white;
+}
+.table-row {
+	display: grid;
+	grid-template-columns: 1fr 5fr 2fr 1fr 1.75fr 1.25fr 1.5fr 2.5fr; /* Total: 16fr */
+	outline: 1px solid black;
+}
+.table-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	outline: 1px solid black;
+	padding: 2px;
+}
+#header-1 {
+	grid-area: 1 / 1 / 3 / 2;
+}
+#header-2 {
+	grid-area: 1 / 2 / 3 / 3;
+}
+#header-3 {
+	grid-area: 1 / 3 / 3 / 4;
+}
+#header-4 {
+	grid-area: 1 / 4 / 3 / 5;
+}
+#header-56 {
+	grid-area: 1 / 5 / 2 / 7;
+}
+#header-5 {
+	grid-area: 2 / 5 / 3 / 6;
+}
+#header-6 {
+	grid-area: 2 / 6 / 3 / 7;
+}
+#header-7 {
+	grid-area: 1 / 7 / 3 / 8;
+}
+#header-8 {
+	grid-area: 1 / 8 / 3 / 9;
+}
+.table-column-id {
+	font-weight: bold;
+	text-align: center;
+	outline: 1px solid black;
+}
+.table-item {
+	outline: 1px solid black;
+	padding: 2px;
+}
+.text-center {
+	text-align: center;
+}
+.text-right {
+	text-align: right;
+}
+.table-total {
+	display: grid;
+	grid-template-columns: 1fr 5fr 2fr 1fr 2fr 1fr 1.5fr 2.5fr; /* Total: 16fr */
+	font-weight: bold;
+}
+#total-text {
+	grid-area: 1 / 2 / 1 / 3;
+}
+#total-blank {
+	grid-area: 1 / 3 / 1 / 8;
+}
+#total-num {
+	grid-area: 1 / 8 / 1 / 9;
+}
+
+#signing {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+}
+#sign-date {
+	grid-area: 1 / 4 / 1 / 5;
+	text-align: center;
+}
+#signers {
+	grid-area: 2 / 1 / 2 / 5;
+}
+#sign-here {
+	grid-area: 3 / 1 / 3 / 5;
+}
+#sign-area {
+	grid-area: 4 / 1 / 4 / 5;
+}
+.signatures {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.signatures div {
+	text-align: center;
+}
+.sign-here {
+	font-style: italic;
+}
+.sign-area {
+	height: 30mm;
+}
+
+#btn-print {
+	display: block;
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	width: 50px;
+	height: 36px;
+	background: #ff9c2c;
+}
+#btn-print:hover {
+	cursor: pointer;
+	background: #ffaa44;
+}
+
+@media print {
+	main {
+		position: absolute;
+		top: 0;
+		left: 0;
+		box-shadow: none;
+	}
+	#btn-print {
+		visibility: hidden;
+	}
+}

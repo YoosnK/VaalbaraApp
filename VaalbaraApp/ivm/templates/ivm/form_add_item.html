@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}Thêm mặt hàng mới{% endblock %}
+{% block page_title %}Thêm mặt hàng mới{% endblock %}
+
+{% block content %}
+<div class="form-container" style="max-width: 600px; margin: 20px auto;">
+    <form method="post" class="item-form">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: bold;">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color: red;">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a href="{% url 'ivm:inventory_manager' %}" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+{% endblock %}

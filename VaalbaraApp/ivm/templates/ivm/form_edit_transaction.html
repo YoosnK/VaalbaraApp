@@ -1,0 +1,175 @@
+{% extends 'layout.html' %}
+
+{% block title %}Chỉnh sửa giao dịch kho: {{ transaction.code }}{% endblock %}
+{% block page_title %}Chỉnh sửa giao dịch kho{% endblock %}
+
+{% block extra_head %}
+<style>
+    .edit-container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .status-banner {
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+
+    .main-form {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        >div {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+
+            label {
+                text-align: right;
+            }
+
+            * {
+                margin: 5px 10px;
+            }
+        }
+
+        textarea {
+            resize: none;
+        }
+    }
+
+    .sub-forms {
+        display: grid;
+    }
+
+    .grid-header,
+    .item-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 40px;
+        padding: 10px;
+    }
+
+    .grid-header {
+        font-weight: bold;
+
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .item-row {
+        gap: 10px;
+        align-items: center;
+        outline: 1px solid #fff;
+
+        select,
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #4c4c4c;
+            border-radius: 4px;
+        }
+
+        div {
+            text-align: center;
+        }
+    }
+
+    .delete-cell {
+        text-align: center;
+        color: red;
+
+    }
+
+    .last-item-row {
+        div:first-child {
+            grid-area: 1 / 1 / 1 / 2;
+        }
+
+        div:last-child {
+            grid-area: 1 / 6 / 1 / 7;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="edit-container">
+    <h2>Editing Transaction: <span style="color: #007bff;">{{ transaction.code }}</span></h2>
+
+    <div class="status-banner">
+        Status: <strong>{{ transaction.get_transaction_status_display }}</strong>
+        | Created: {{ transaction.creation_date|date:"Y/m/d H:i" }}
+    </div>
+
+    <form method="post" id="transaction-form">
+        {% csrf_token %}
+        <div class="main-form" id="main-form">
+            {{ form }}
+        </div>
+        <div class="sub-forms">
+            <div class="grid-header">
+                <div>Mặt hàng</div>
+                <div>Số lượng</div>
+                <div>Đơn giá</div>
+                <div>Chiết khấu (%)</div>
+                <div>Ghi chú</div>
+                <div>Thành Tiền</div>
+                <div>Xóa</div>
+            </div>
+            {{ formset.management_form }}
+            <div id="item-list">
+                {% for item_form in formset %}
+                <div class="item-row">
+                    {{ item_form.id }}
+                    <div>{{ item_form.item }}</div>
+                    <div>{{ item_form.quantity }}</div>
+                    <div>{{ item_form.unit_cost }}</div>
+                    <div>{{ item_form.discount }}</div>
+                    <div>{{ item_form.notes }}</div>
+                    <div class="total-cell">0</div>
+                    <div class="delete-cell">{{ item_form.DELETE }}</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div id="empty-form-template" style="display:none;">
+                <div class="item-row">
+                    {{ formset.empty_form.id }}
+                    <div>{{ formset.empty_form.item }}</div>
+                    <div>{{ formset.empty_form.quantity }}</div>
+                    <div>{{ formset.empty_form.unit_cost }}</div>
+                    <div>{{ formset.empty_form.discount }}</div>
+                    <div>{{ formset.empty_form.notes }}</div>
+                    <div class="total-cell">0</div>
+                    <div class="delete-cell">{{ formset.empty_form.DELETE }}</div>
+                </div>
+            </div>
+            <div class="last-item-row item-row">
+                <div>Tổng</div>
+                <div class="grand-total">0</div>
+            </div>
+        </div>
+
+        <div class="actions-bar">
+            <button type="button" id="add-item-btn" class="btn btn-jade">+ Thêm mặt hàng</button>
+            <button type="submit" class="btn btn-jade">Lưu</button>
+            <a href="{% url 'ivm:transaction_detail' transaction.transaction_id %}" class="btn btn-secondary">Hủy</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    window.stockData = {{ stock_json | safe }};
+</script>
+<script src="{% static 'js/transaction_form.js' %}"></script>
+{% endblock %}
