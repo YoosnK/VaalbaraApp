@@ -6,4 +6,5 @@ staticfiles/
 media/
 venv/
 .DS_Store
-.venv
+.venv/
+.idea/
