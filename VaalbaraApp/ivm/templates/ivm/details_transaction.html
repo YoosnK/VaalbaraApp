@@ -100,41 +100,41 @@
 <div class="actions-bar">
     {% if transaction.is_completed %}
     <a target="_blank" href="{% url 'ivm:transaction_pdf' transaction_id=transaction.transaction_id %}">
-        <div class="action btn btn-jade">Tạo PDF</div>
+        <div class="btn btn-jade">Tạo PDF</div>
     </a>
     {% endif %}
 
     {% if perms.ivm.change_transaction and not transaction.is_completed %}
     <a href="{% url 'ivm:edit_transaction' transaction_id=transaction.transaction_id %}">
-        <div class="action btn btn-edit">Chỉnh sửa</div>
+        <div class="btn btn-edit">Chỉnh sửa</div>
     </a>
     {% endif %}
 
     {% if perms.ivm.authorize_transaction and not transaction.is_completed and not transaction.is_authorized %}
     <form method="POST" action="{% url 'ivm:authorize_transaction' transaction_id=transaction.transaction_id %}">
         {% csrf_token %}
-        <button type="submit" class="action btn btn-authorize">Duyệt</button>
+        <button type="submit" class="btn btn-authorize">Duyệt</button>
     </form>
     {% endif %}
 
     {% if perms.ivm.authorize_transaction and not transaction.is_completed and not transaction.is_rejected %}
     <form method="POST" action="{% url 'ivm:reject_transaction' transaction_id=transaction.transaction_id %}">
         {% csrf_token %}
-        <button type="submit" class="action btn btn-reject">Không Duyệt</button>
+        <button type="submit" class=" btn btn-reject">Không Duyệt</button>
     </form>
     {% endif %}
 
     {% if perms.ivm.complete_transaction and transaction.is_authorized %}
     <form method="POST" action="{% url 'ivm:complete_transaction' transaction_id=transaction.transaction_id %}">
         {% csrf_token %}
-        <button type="submit" class="action btn btn-jade">Hoàn Thành</button>
+        <button type="submit" class="btn btn-jade">Hoàn Thành</button>
     </form>
     {% endif %}
 
     {% if perms.ivm.delete_transaction and not transaction.is_completed %}
     <form method="POST" action="{% url 'ivm:delete_transaction' transaction_id=transaction.transaction_id %}">
         {% csrf_token %}
-        <button type="submit" class="action btn btn-delete"
+        <button type="submit" class="btn btn-delete"
             onsubmit="return confirm('Bạn có chắc chắn muốn xóa giao dịch này?');">Xóa</button>
     </form>
     {% endif %}

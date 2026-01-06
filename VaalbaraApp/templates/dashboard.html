@@ -22,6 +22,7 @@ Trang Chủ
         <section class="info-panel-body">
             <p>Xin chào {{ user.last_name }} {{ user.first_name }}</p>
             <p>Hôm nay là ngày {{ today|date:"d/m/Y" }}</p>
+            <p>Chức vụ: {% for group in user.groups.objects.all %}, {{group}}{% endfor %}</p>
         </section>
     </section>
 

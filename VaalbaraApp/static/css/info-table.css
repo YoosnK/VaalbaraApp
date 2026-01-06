@@ -64,7 +64,7 @@
 	}
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
 	.model-info-container {
 		.info-panel {
 			border-left: none;

@@ -9,7 +9,7 @@ body {
 	min-height: 100vh;
 	background-color: #111;
 	color: whitesmoke;
-	overflow: hidden;
+	overflow-y: auto;
 }
 main {
 	height: calc(100vh - 60px);
@@ -37,15 +37,7 @@ a {
 	flex-wrap: nowrap;
 	align-items: center;
 	height: 40px;
-	margin-top: 30px;
-	padding: 0px 5px;
-}
-.action {
-	height: 100%;
-	padding: 10px 15px;
-	border-radius: 4px;
-	text-wrap: nowrap;
-	border: none;
+	padding: 0 10px;
 }
 
 /* #region Buttons */
@@ -98,6 +90,12 @@ a {
 		border-radius: 5px;
 		margin: 0 0 20px 0;
 		gap: 0;
+		overflow: hidden;
+	}
+	.detail-main,
+	.detail-extra {
+		width: clamp(300px, 50%, 600px);
+		max-width: 100%;
 	}
 
 	.detail-main {
@@ -122,6 +120,9 @@ a {
 .detail-main h3 {
 	background-color: #44b78b;
 	color: #222;
+	a {
+		color: #222;
+	}
 }
 .detail-extra h3 {
 	border: 3px solid #444;
@@ -136,11 +137,14 @@ a {
 
 	label,
 	span {
-		display: block;
+		display: inline-block;
 		padding: 5px;
 	}
+	label {
+		font-weight: bold;
+	}
 }
-.detail-row:first-of-type {
+/* .detail-row:first-of-type {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	label {
@@ -148,6 +152,13 @@ a {
 	}
 	span {
 		border-top-right-radius: 5px;
+	}
+}
+.detail-main .detail-row:first-of-type {
+	border-radius: 0;
+	span,
+	label {
+		border-radius: 0;
 	}
 }
 .detail-row:last-of-type {
@@ -159,7 +170,7 @@ a {
 	span {
 		border-bottom-right-radius: 5px;
 	}
-}
+} */
 
 @media (min-width: 600px) {
 	.detail-main,
@@ -175,9 +186,23 @@ a {
 		label,
 		span {
 			outline: 1px solid #444;
+			display: block;
+		}
+		label {
+			font-weight: normal;
 		}
 	}
 }
+/* #endregion */
+
+/* #region List */
+.list-body {
+	.list-item {
+		padding: 10px;
+		border-bottom: 1px solid #444;
+	}
+}
+
 /* #endregion */
 
 /* #region Forms */
@@ -259,19 +284,47 @@ a {
 			}
 		}
 	}
-
-	button.form-submit {
-		justify-self: center;
+	.form-actions {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
 		align-self: center;
+		column-gap: 20px;
 		margin: 20px 0;
-		text-align: center;
-		padding: 10px;
-		background-color: #222;
-		border: 2px solid white;
-		border-radius: 5px;
-		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-		font-weight: bold;
-		color: #eee;
+		height: 40px;
+
+		> * {
+			max-height: 100%;
+			height: 40px;
+			text-align: center;
+			font-weight: bold;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+			background-color: #222;
+			border: 2px solid white;
+			border-radius: 5px;
+		}
+
+		.form-submit {
+			padding: 10px;
+			color: #eee;
+		}
+		.form-cancel {
+			padding: 10px;
+			color: hsl(0, 100%, 33%);
+		}
+	}
+}
+
+@media (max-width: 600px) {
+	.form .main-form > div {
+		display: flex;
+		flex-direction: column;
+
+		label {
+			max-width: 100%;
+			text-align: left;
+		}
 	}
 }
 

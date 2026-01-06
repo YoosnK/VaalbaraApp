@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'css/report_pdf.css' %}">
-    <link rel="icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="icon" href="{% static 'images/icons/favicon.ico' %}">
     <script src="{% static 'js/main.js' %}" defer></script>
     <title>{{ transaction.code }}</title>
 </head>
@@ -117,7 +117,8 @@
             <div class="table-total table-row">
                 <div class="table-item" id="total-text">Tổng</div>
                 <div class="table-item" id="total-blank"></div>
-                <div class="table-item text-center" id="total-num">{{ transaction.report_value|floatformat:"-2"|intcomma}}</div>
+                <div class="table-item text-center" id="total-num">{{
+                    transaction.report_value|floatformat:"-2"|intcomma}}</div>
             </div>
         </section>
 

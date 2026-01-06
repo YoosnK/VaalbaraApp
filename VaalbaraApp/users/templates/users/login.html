@@ -2,20 +2,26 @@
 
 
 {% block title %}
-    Đăng Nhập
+Đăng Nhập
 {% endblock %}
 
 {% block page_title %}
-    Đăng Nhập
+Đăng Nhập
 {% endblock %}
 
 {% block content %}
-    <form class="form-with-validation" action="{% url 'users:login' %}" method="POST">
-        {% csrf_token %}
+<form class="form" action="{% url 'users:login' %}" method="POST">
+    {% csrf_token %}
+    <section class="main-form">
         {{ form }}
-        {% if request.GET.next %}
-            <input type="hidden" name="next" value="{{ request.GET.next }}">
-        {% endif %}
-        <button class="form-submit">Submit</button>
-    </form>
+    </section>
+    {% if request.GET.next %}
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+    {% endif %}
+    <section class="form-actions">
+        <button class="form-submit">Đăng Nhập</button>
+    </section>
+</form>
 {% endblock %}
+
+{% block dropdown_js %}{% endblock %}

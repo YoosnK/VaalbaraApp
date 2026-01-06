@@ -10,7 +10,7 @@ Nhiệm vụ
 {% endblock %}
 
 {% block nav_left %}
-<a href="{% url 'tasks:tasks_list' %}"></a>
+<a class="btn btn-jade" href="{% url 'tasks:tasks_list' %}">&lt</a>
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,11 @@ Nhiệm vụ
         <h3>{{ task.title }}</h3>
         <div class="detail-row">
             <label>Tạo bởi:</label>
-            <span>{{ task.completion_date }}</span>
+            <span>{{ task.created_by }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Dành cho:</label>
+            <span>{{ task.task_for }}</span>
         </div>
         <div class="detail-row">
             <label>Thông tin:</label>

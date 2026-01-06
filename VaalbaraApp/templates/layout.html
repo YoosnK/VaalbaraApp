@@ -3,7 +3,12 @@
 <html lang="en">
 
 <head>
-    {% include 'head.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="icon" href="{% static 'images/icons/favicon.ico' %}">
+    <script src="{% static 'js/main.js' %}" defer></script>
     <title>{% block title %}Layout{% endblock %}</title>
     {% block extra_head %}{% endblock %}
 </head>
@@ -12,7 +17,7 @@
     <nav class="navbar">
         <div class="nav-left">
             {% if user.is_authenticated %}
-            <button id="menuBtn" class="dropdown-button btn btn-jade">☰</button>
+            <button id="menuBtn" class="dropdown-button btn btn-jade" style="height: 40px; width: 40px;">☰</button>
             <div id="dropdownMenu" class="dropdown-content">
                 <a href="/">Dashboard</a>
                 <a href="{% url 'tasks:tasks_list' %}">Nhiệm Vụ</a>
@@ -47,7 +52,13 @@
             {% if user.is_authenticated %}
             <form class="logout" action="{% url 'users:logout' %}" method="POST">
                 {% csrf_token %}
-                <button class="btn btn-jade" aria-label="Logout" title="Logout">Đăng xuất</button>
+                <button class="btn btn-jade" aria-label="Logout" title="Logout" style="
+                    height: 40px;
+                    width: 40px;
+                    padding: 10px 5px 10px 10px;
+                    ">
+                    <img height="100%" src="{% static 'images/icons/logout.png' %}">
+                </button>
             </form>
             {% endif %}
             {% block nav_right %}{% endblock %}
@@ -59,6 +70,7 @@
     </main>
 
     <!-- Dropdown button js -->
+    {% block dropdown_js %}
     <script>
         const menuBtn = document.getElementById('menuBtn');
         const dropdownMenu = document.getElementById('dropdownMenu');
@@ -77,6 +89,7 @@
             }
         }
     </script>
+    {% endblock %}
     {% block extra_js %}{% endblock %}
 </body>
 

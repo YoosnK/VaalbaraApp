@@ -43,7 +43,7 @@
             <h4>No items in inventory</h4>
             {% endfor %}
         </section>
-        <div class="action-bar">
+        <div class="actions-bar">
             {% if perms.ivm.add_item %}
             <a href="{% url 'ivm:add_item_with_slug' inventory_slug=inventory.slug %}?next={{ request.path }}"
                 class="btn btn-jade">

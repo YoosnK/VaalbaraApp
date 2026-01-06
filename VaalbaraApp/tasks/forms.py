@@ -8,10 +8,10 @@ class CreateTask(forms.ModelForm):
         label="Tiêu đề",
         widget=forms.TextInput(attrs={'class': 'form-textinput'})
     )
-    task_for = forms.ModelChoiceField(
+    task_for = forms.ModelMultipleChoiceField(
         queryset=User.objects.all(),
         label='Giao nhiệm vụ cho',
-        widget=forms.Select(attrs={'class': 'form-select'}),
+        widget=forms.SelectMultiple(attrs={'class': 'form-select'}),
     )
     body = forms.CharField(
         required=False,

@@ -16,7 +16,7 @@
 .pending-tasks {
 	grid-area: tasks;
 }
-@media (max-width: 600px) {
+@media (max-width: 480px) {
 	.dashboard {
 		width: 100%;
 		grid-template-areas: "welcome" "transactions" "tasks" "finance";
