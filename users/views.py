@@ -38,3 +38,6 @@ def logout_view(request):
         logout(request)
         return redirect("users:login")
     return None
+
+def adminhub(request):
+    return render(request, 'users/adminhub.html')

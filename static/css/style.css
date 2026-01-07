@@ -222,17 +222,17 @@ a {
 
 			label {
 				text-align: right;
-				grid-column: 1 / 2;
+				grid-area: 1 / 1 / 1 / 2;
 			}
 			textarea {
 				resize: none;
 			}
 			input,
 			textarea {
-				grid-column: 2 / 3;
+				grid-area: 1 / 2 / 1 / 3;
 			}
 			.help-text {
-				grid-column: 3 / 4;
+				grid-area: 2 / 2 / 2 / 3;
 			}
 		}
 	}

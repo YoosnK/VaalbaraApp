@@ -8,12 +8,19 @@ class CustomUserCreationForm(UserCreationForm):
         required=False,
         widget=forms.FileInput(attrs={'class':'form-fileinput'})
     )
+    email = forms.EmailField(
+        label="Email*",
+        required=True,
+        widget=forms.TextInput(attrs={'class':'form-textinput'})
+    )
     first_name = forms.CharField(
         label="Tên",
+        required=False,
         widget=forms.TextInput(attrs={'class':'form-textinput'})
     )
     last_name = forms.CharField(
         label="Họ",
+        required=False,
         widget=forms.TextInput(attrs={'class':'form-textinput'})
     )
     
