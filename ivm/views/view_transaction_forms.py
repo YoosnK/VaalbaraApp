@@ -24,11 +24,11 @@ def _handle_partner_creation(form):
 
 @login_required(login_url='/users/login/')
 @permission_required('ivm.add_transaction', raise_exception=True)
-def create_transaction(request):
+def add_transaction(request):
     stock_map = {item.item_id: str(item.total_stock) for item in Item.objects.all()}
 
     if request.method != 'POST':
-        return render(request, 'ivm/form_create_transaction.html', {
+        return render(request, 'ivm/form_add_transaction.html', {
             'form': TransactionForm(),
             'formset': TransactionItemFormSet(prefix='items'),
             'stock_json': json.dumps(stock_map),
@@ -56,7 +56,7 @@ def create_transaction(request):
         except Exception as e:
             form.add_error(None, f"Error saving transaction: {e}")
 
-    return render(request, 'ivm/form_create_transaction.html', {
+    return render(request, 'ivm/form_add_transaction.html', {
         'form': form,
         'formset': formset,
         'stock_json': json.dumps(stock_map),
@@ -212,7 +212,7 @@ def complete_transaction(request, transaction_id):
     return redirect('ivm:transaction_detail', transaction_id=tx.transaction_id)
 
 __all__ = [
-    'create_transaction',
+    'add_transaction',
     'edit_transaction',
     'delete_transaction',
     'authorize_transaction',

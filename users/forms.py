@@ -9,8 +9,8 @@ class CustomUserCreationForm(UserCreationForm):
         widget=forms.FileInput(attrs={'class':'form-fileinput'})
     )
     email = forms.EmailField(
-        label="Email*",
-        required=True,
+        label="Email",
+        required=False,
         widget=forms.TextInput(attrs={'class':'form-textinput'})
     )
     first_name = forms.CharField(
@@ -27,7 +27,7 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         # Ensure these match the fields in your admin.py add_fieldsets
-        fields = ('username', 'first_name', 'last_name', 'email', 'photo', 'age')
+        fields = ('username', 'first_name', 'last_name', 'email', 'photo')
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:

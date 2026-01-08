@@ -26,7 +26,7 @@ a {
 }
 
 .actions-bar {
-	position: sticky;
+	position: absolute;
 	bottom: 5px;
 	width: 100%;
 	overflow-x: auto;
@@ -38,6 +38,9 @@ a {
 	align-items: center;
 	height: 40px;
 	padding: 0 10px;
+}
+.actions-bar-wrapper {
+	padding-bottom: 40px;
 }
 
 /* #region Buttons */

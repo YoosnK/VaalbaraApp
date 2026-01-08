@@ -42,7 +42,7 @@
     {% endfor %}
 
     {% if perms.ivm.add_transaction %}
-    <a href="{% url 'ivm:create_transaction' %}" class="btn btn-jade" id="create-btn">+</a>
+    <a href="{% url 'ivm:add_transaction' %}" class="btn btn-jade" id="create-btn">+</a>
     {% endif %}
 </section>
 {% endblock %}

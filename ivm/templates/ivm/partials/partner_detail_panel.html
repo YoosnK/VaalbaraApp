@@ -24,5 +24,14 @@
         <label>Mã số thuế:</label>
         <span>{{ partner.tax_code }}</span>
     </div>
+    <section class="detail-panel-actions">
+        {% if perms.ivm.delete_partner %}
+        <form action="{% url 'ivm:delete_partner' partner_id=partner.id %}" method="POST" style="display:inline;"
+            onsubmit="return confirm('Bạn có chắc chắn muốn xóa đối tác này?');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-delete">Xóa</button>
+        </form>
+        {% endif %}
+    </section>
     <button class="info-panel-close-btn">❌</button>
 </section>

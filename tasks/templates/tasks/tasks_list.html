@@ -9,20 +9,23 @@ Bảng nhiệm vụ
 {% endblock %}
 
 {% block content %}
-<section class="list-body">
-    {% for task in tasks %}
-    <article class="list-item">
-        <h2><a href="{% url 'tasks:task_page' task_id=task.id %}">{{ task.title }}</a></h2>
-        <p>Được tạo vào {{ task.creation_date|date:"d/m/Y" }} bởi {{ task.created_by }}</p>
-        <p>{{ task.body }}</p>
-    </article>
-    {% empty %}
-    Không còn nhiệm vụ
-    {% endfor %}
-</section>
-<section class="actions-bar">
-    <a href="{% url 'tasks:new_task' %}">
-        <button class="btn btn-jade">+</button>
-    </a>
+<section class="actions-bar-wrapper">
+    <section class="list-body">
+        {% for task in tasks %}
+        <article class="list-item">
+            <h2><a href="{% url 'tasks:task_page' task_id=task.id %}">{{ task.title }}</a></h2>
+            <p>Được tạo vào {{ task.creation_date|date:"d/m/Y" }} bởi {{ task.created_by }}</p>
+            <p>{{ task.body }}</p>
+        </article>
+        {% empty %}
+        Không còn nhiệm vụ
+        {% endfor %}
+    </section>
+
+    <section class="actions-bar">
+        <a href="{% url 'tasks:new_task' %}">
+            <button class="btn btn-jade">+</button>
+        </a>
+    </section>
 </section>
 {% endblock %}

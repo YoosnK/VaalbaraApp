@@ -17,7 +17,7 @@ Thông tin đối tác
 
 
 {% block content %}
-<section class="model-info-container">
+<section class="model-info-container actions-bar-wrapper">
     <section class="info-table partners-table">
         <div class="info-table-header">
             <div>Tên</div>
@@ -39,8 +39,17 @@ Thông tin đối tác
             {% endfor %}
         </section>
     </section>
+
     <section class="info-panel">
     </section>
+
+    <div class="actions-bar">
+        {% if perms.ivm.add_partner %}
+        <a href="{% url 'ivm:add_partner' %}" class="btn btn-jade">
+            <span class="icon">+</span>
+        </a>
+        {% endif %}
+    </div>
 </section>
 {% endblock %}
 

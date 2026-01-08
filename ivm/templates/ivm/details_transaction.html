@@ -11,132 +11,134 @@
 {% endblock %}
 
 {% block content %}
-<section class="detail-body">
-    <section class="detail-main">
-        <h3>Chi tiết giao dịch</h3>
-        <div class="detail-row">
-            <label>Mã giao dịch: </label>
-            <span>{{ transaction.code }}</span>
-        </div>
-        <div class="detail-row">
-            <label>Loại: </label>
-            <span>{{ transaction.get_transaction_type_display }}</span>
-        </div>
-        <div class="detail-row">
-            <label>Kho: </label>
-            <span>{{ transaction.inventory.inventory_name }}</span>
-        </div>
-        <div class="detail-row">
-            <label>Trạng Thái: </label>
-            <span>{{ transaction.get_transaction_status_display }}</span>
-        </div>
-        <div class="detail-row">
-            <label>Đối tác: </label>
-            <span>{{ transaction.partner.name }}</span>
-        </div>
-        <div class="detail-row">
-            <label>Ghi chú: </label>
-            <span>{{ transaction.notes }}</span>
-        </div>
-        <br>
-        <div class="detail-row">
-            <label>Chi phí phát sinh: </label>
-            <span>{{ transaction.extra_cost }}</span>
-        </div>
-        <div class="detail-row">
-            <label>Giá trị: </label>
-            <span>{{ transaction.value|floatformat:"-2"|intcomma }}</span>
-        </div>
-        <br>
-        <div class="detail-row">
-            <label>Tạo bởi "{{ transaction.created_by }}": </label>
-            <span>{{ transaction.creation_date|date:"Y/m/d H:i" }}</span>
-        </div>
-        {% if transaction.authorized_by %}
-        <div class="detail-row">
-            <label>Duyệt bởi "{{ transaction.authorized_by }}": </label>
-            <span>{{ transaction.authorization_date|date:"Y/m/d H:i" }}</span>
-        </div>
-        {% endif %}
-        {% if transaction.performed_by %}
-        <div class="detail-row">
-            <label>Hoàn thành bởi "{{ transaction.performed_by }}": </label>
-            <span>{{ transaction.completion_date|date:"Y/m/d H:i" }}</span>
-        </div>
-        {% endif %}
-    </section>
-
-    <section class="detail-extra">
-        <h3>Các mặt hàng giao dịch:</h3>
-        {% for t_item in transaction.transaction_items.all %}
-        <section class="detail-extra-item">
+<section class="actions-bar-wrapper">
+    <section class="detail-body">
+        <section class="detail-main">
+            <h3>Chi tiết giao dịch</h3>
             <div class="detail-row">
-                <label>Mặt hàng:</label>
-                <span>{{ t_item.item.item_name }}</span>
+                <label>Mã giao dịch: </label>
+                <span>{{ transaction.code }}</span>
             </div>
             <div class="detail-row">
-                <label>Số lượng:</label>
-                <span>{{ t_item.quantity|floatformat:"-2"|intcomma }}</span>
+                <label>Loại: </label>
+                <span>{{ transaction.get_transaction_type_display }}</span>
             </div>
             <div class="detail-row">
-                <label>Đơn giá:</label>
-                <span>{{ t_item.unit_cost|floatformat:"-2"|intcomma }}</span>
+                <label>Kho: </label>
+                <span>{{ transaction.inventory.inventory_name }}</span>
             </div>
             <div class="detail-row">
-                <label>Chiếu khấu:</label>
-                <span>{{ t_item.discount|floatformat:"-2" }}%</span>
+                <label>Trạng Thái: </label>
+                <span>{{ transaction.get_transaction_status_display }}</span>
             </div>
             <div class="detail-row">
-                <label>Ghi chú:</label>
-                <span>{{ t_item.notes }}</span>
+                <label>Đối tác: </label>
+                <span>{{ transaction.partner.name }}</span>
             </div>
+            <div class="detail-row">
+                <label>Ghi chú: </label>
+                <span>{{ transaction.notes }}</span>
+            </div>
+            <br>
+            <div class="detail-row">
+                <label>Chi phí phát sinh: </label>
+                <span>{{ transaction.extra_cost }}</span>
+            </div>
+            <div class="detail-row">
+                <label>Giá trị: </label>
+                <span>{{ transaction.value|floatformat:"-2"|intcomma }}</span>
+            </div>
+            <br>
+            <div class="detail-row">
+                <label>Tạo bởi "{{ transaction.created_by }}": </label>
+                <span>{{ transaction.creation_date|date:"Y/m/d H:i" }}</span>
+            </div>
+            {% if transaction.authorized_by %}
+            <div class="detail-row">
+                <label>Duyệt bởi "{{ transaction.authorized_by }}": </label>
+                <span>{{ transaction.authorization_date|date:"Y/m/d H:i" }}</span>
+            </div>
+            {% endif %}
+            {% if transaction.performed_by %}
+            <div class="detail-row">
+                <label>Hoàn thành bởi "{{ transaction.performed_by }}": </label>
+                <span>{{ transaction.completion_date|date:"Y/m/d H:i" }}</span>
+            </div>
+            {% endif %}
         </section>
-        {% empty %}
-        <div>Không mặt hàng giao dịch</div>
-        {% endfor %}
+
+        <section class="detail-extra">
+            <h3>Các mặt hàng giao dịch:</h3>
+            {% for t_item in transaction.transaction_items.all %}
+            <section class="detail-extra-item">
+                <div class="detail-row">
+                    <label>Mặt hàng:</label>
+                    <span>{{ t_item.item.item_name }}</span>
+                </div>
+                <div class="detail-row">
+                    <label>Số lượng:</label>
+                    <span>{{ t_item.quantity|floatformat:"-2"|intcomma }}</span>
+                </div>
+                <div class="detail-row">
+                    <label>Đơn giá:</label>
+                    <span>{{ t_item.unit_cost|floatformat:"-2"|intcomma }}</span>
+                </div>
+                <div class="detail-row">
+                    <label>Chiếu khấu:</label>
+                    <span>{{ t_item.discount|floatformat:"-2" }}%</span>
+                </div>
+                <div class="detail-row">
+                    <label>Ghi chú:</label>
+                    <span>{{ t_item.notes }}</span>
+                </div>
+            </section>
+            {% empty %}
+            <div>Không mặt hàng giao dịch</div>
+            {% endfor %}
+        </section>
     </section>
+
+    <div class="actions-bar">
+        {% if transaction.is_completed %}
+        <a target="_blank" href="{% url 'ivm:transaction_pdf' transaction_id=transaction.transaction_id %}">
+            <div class="btn btn-jade">Tạo PDF</div>
+        </a>
+        {% endif %}
+
+        {% if perms.ivm.change_transaction and not transaction.is_completed %}
+        <a href="{% url 'ivm:edit_transaction' transaction_id=transaction.transaction_id %}">
+            <div class="btn btn-edit">Chỉnh sửa</div>
+        </a>
+        {% endif %}
+
+        {% if perms.ivm.authorize_transaction and not transaction.is_completed and not transaction.is_authorized %}
+        <form method="POST" action="{% url 'ivm:authorize_transaction' transaction_id=transaction.transaction_id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-authorize">Duyệt</button>
+        </form>
+        {% endif %}
+
+        {% if perms.ivm.authorize_transaction and not transaction.is_completed and not transaction.is_rejected %}
+        <form method="POST" action="{% url 'ivm:reject_transaction' transaction_id=transaction.transaction_id %}">
+            {% csrf_token %}
+            <button type="submit" class=" btn btn-reject">Không Duyệt</button>
+        </form>
+        {% endif %}
+
+        {% if perms.ivm.complete_transaction and transaction.is_authorized %}
+        <form method="POST" action="{% url 'ivm:complete_transaction' transaction_id=transaction.transaction_id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-jade">Hoàn Thành</button>
+        </form>
+        {% endif %}
+
+        {% if perms.ivm.delete_transaction and not transaction.is_completed %}
+        <form method="POST" action="{% url 'ivm:delete_transaction' transaction_id=transaction.transaction_id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-delete"
+                onsubmit="return confirm('Bạn có chắc chắn muốn xóa giao dịch này?');">Xóa</button>
+        </form>
+        {% endif %}
+    </div>
 </section>
-
-<div class="actions-bar">
-    {% if transaction.is_completed %}
-    <a target="_blank" href="{% url 'ivm:transaction_pdf' transaction_id=transaction.transaction_id %}">
-        <div class="btn btn-jade">Tạo PDF</div>
-    </a>
-    {% endif %}
-
-    {% if perms.ivm.change_transaction and not transaction.is_completed %}
-    <a href="{% url 'ivm:edit_transaction' transaction_id=transaction.transaction_id %}">
-        <div class="btn btn-edit">Chỉnh sửa</div>
-    </a>
-    {% endif %}
-
-    {% if perms.ivm.authorize_transaction and not transaction.is_completed and not transaction.is_authorized %}
-    <form method="POST" action="{% url 'ivm:authorize_transaction' transaction_id=transaction.transaction_id %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-authorize">Duyệt</button>
-    </form>
-    {% endif %}
-
-    {% if perms.ivm.authorize_transaction and not transaction.is_completed and not transaction.is_rejected %}
-    <form method="POST" action="{% url 'ivm:reject_transaction' transaction_id=transaction.transaction_id %}">
-        {% csrf_token %}
-        <button type="submit" class=" btn btn-reject">Không Duyệt</button>
-    </form>
-    {% endif %}
-
-    {% if perms.ivm.complete_transaction and transaction.is_authorized %}
-    <form method="POST" action="{% url 'ivm:complete_transaction' transaction_id=transaction.transaction_id %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-jade">Hoàn Thành</button>
-    </form>
-    {% endif %}
-
-    {% if perms.ivm.delete_transaction and not transaction.is_completed %}
-    <form method="POST" action="{% url 'ivm:delete_transaction' transaction_id=transaction.transaction_id %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-delete"
-            onsubmit="return confirm('Bạn có chắc chắn muốn xóa giao dịch này?');">Xóa</button>
-    </form>
-    {% endif %}
-</div>
 {% endblock %}

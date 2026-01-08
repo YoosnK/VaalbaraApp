@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block title %}Chỉnh sửa đối tác{% endblock %}
+{% block page_title %}Chỉnh sửa đối tác{% endblock %}
+
+{% block content %}
+<form method="post" class="form">
+    {% csrf_token %}
+
+    <section class="main-form">
+        {{ form }}
+    </section>
+
+    <section class="form-actions">
+        <button type="submit" class="form-submit">Cập nhật</button>
+        <a href="{% url 'ivm:page_partners' %}" class="form-cancel">Hủy</a>
+    </section>
+</form>
+{% endblock %}

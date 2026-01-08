@@ -6,7 +6,7 @@
 {% block page_title %}Tạo giao dịch kho{% endblock %}
 
 {% block content %}
-<form method="post" id="transaction-form" class="form">
+<form method="post" id="transaction-form" class="form actions-bar-wrapper">
     {% csrf_token %}
     <div class="main-form" id="main-form">
         {{ form }}

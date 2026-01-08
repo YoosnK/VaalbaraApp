@@ -20,7 +20,6 @@ def new_task(request):
     if request.method == 'POST':
         form = CreateTask(request.POST, request.FILES)
         if form.is_valid():
-            # save with user
             task_new = form.save(commit=False)
             task_new.created_by = request.user
             task_new.creation_date = timezone.now()

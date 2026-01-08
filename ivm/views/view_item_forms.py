@@ -49,7 +49,7 @@ def edit_item(request, item_id):
 @login_required(login_url='/users/login/')
 @permission_required('ivm.delete_item', raise_exception=True)
 @require_POST
-def delete_item(item_id):
+def delete_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     inventory_slug = item.inventory.slug
 

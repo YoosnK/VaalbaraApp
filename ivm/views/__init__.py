@@ -4,13 +4,14 @@ from .view_models import *
 from .view_partials import *
 from .view_lists import *
 from .view_others import *
+from .view_partner_forms import *
 
 
 __all__ = [
     'add_item',
     'edit_item',
     'delete_item',
-    'create_transaction',
+    'add_transaction',
     'edit_transaction',
     'delete_transaction',
     'authorize_transaction',
@@ -24,5 +25,8 @@ __all__ = [
     'list_inventories',
     'list_transactions',
     'list_partners',
-    'file_pdf_transaction'
+    'file_pdf_transaction',
+    'add_partner',
+    'edit_partner',
+    'delete_partner',
 ]

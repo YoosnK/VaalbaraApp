@@ -9,9 +9,12 @@ urlpatterns = [
 
     path('partners/', views.list_partners, name='page_partners'),
     path('partners/<int:partner_id>/', views.partner_detail_panel, name='partner_detail'),
+    path('partners/add', views.add_partner, name='add_partner'),
+    path('partners/edit/<int:partner_id>/', views.edit_partner, name='edit_partner'),
+    path('partners/delete/<int:partner_id>', views.delete_partner, name='delete_partner'),
 
     path('transactions/', views.list_transactions, name='transactions'),
-    path('transactions/create/', views.create_transaction, name='create_transaction'),
+    path('transactions/add/', views.add_transaction, name='add_transaction'),
     path('transactions/edit/<int:transaction_id>/', views.edit_transaction, name='edit_transaction'),
     path('transactions/delete/<int:transaction_id>/', views.delete_transaction, name='delete_transaction'),
     path('transactions/authorize/<int:transaction_id>/', views.authorize_transaction, name='authorize_transaction'),

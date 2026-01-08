@@ -48,6 +48,12 @@ class ItemForm(forms.ModelForm):
         model = Item
         fields = ['inventory', 'item_name', 'brand', 'packaging', 'unit', 'category', 'description']
 
+# ========= Partners ==========
+
+class PartnerForm(forms.ModelForm):
+    class Meta:
+        model = Partner
+        fields = ['name', 'email', 'phone', 'address', 'contact_person', 'tax_code']
 
 # ========= Transactions ==========
 class TransactionForm(forms.ModelForm):
