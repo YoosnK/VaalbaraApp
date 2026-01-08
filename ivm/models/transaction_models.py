@@ -1,3 +1,4 @@
+from __future__ import annotations
 from django.db import models, transaction as db_transaction
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
